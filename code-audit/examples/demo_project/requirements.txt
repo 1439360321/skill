@@ -1,0 +1,4 @@
+﻿Pillow==8.0.0
+requests==2.25.0
+django==3.0.0
+flask==1.0.0

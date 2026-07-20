@@ -1,0 +1,21 @@
+# VulnRAG-Audit (Upgraded) — Dependencies
+# Core
+tree-sitter>=0.22
+tree-sitter-c>=0.21
+tree-sitter-python>=0.21
+chromadb>=0.4
+sentence-transformers>=2.2
+# LLM
+requests>=2.28
+# Config & CLI
+pyyaml>=6.0
+rich>=13.0
+# Evaluation & visualization
+matplotlib>=3.5
+# Testing
+pytest>=7.0
+pytest-cov>=4.0
+# Optional: Java support
+# tree-sitter-java>=0.21
+# Optional: SCA offline cache
+# nvdlib>=0.7

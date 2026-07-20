@@ -1,0 +1,356 @@
+[
+  {
+    "file": "cwe119_01.c",
+    "function_name": "read_name",
+    "vulnerability_type": "CWE-119",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe120_01.c",
+    "function_name": "build_path",
+    "vulnerability_type": "CWE-120",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe121_01.c",
+    "function_name": "copy_user_input",
+    "vulnerability_type": "CWE-121",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe122_01.c",
+    "function_name": "process_data",
+    "vulnerability_type": "CWE-122",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe125_01.c",
+    "function_name": "copy_string_no_bounds",
+    "vulnerability_type": "CWE-125",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe134_01.c",
+    "function_name": "log_message",
+    "vulnerability_type": "CWE-134",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe190_01.c",
+    "function_name": "allocate_buffer",
+    "vulnerability_type": "CWE-190",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe20_01.c",
+    "function_name": "parse_age",
+    "vulnerability_type": "CWE-20",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe415_01.c",
+    "function_name": "cleanup_resources",
+    "vulnerability_type": "CWE-415",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe416_01.c",
+    "function_name": "handle_request",
+    "vulnerability_type": "CWE-416",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe476_01.c",
+    "function_name": "get_config_value",
+    "vulnerability_type": "CWE-476",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe761_01.c",
+    "function_name": "extract_token",
+    "vulnerability_type": "CWE-761",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe77_01.c",
+    "function_name": "execute_backup",
+    "vulnerability_type": "CWE-77",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe78_01.c",
+    "function_name": "run_ping",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "cwe787_01.c",
+    "function_name": "fill_array",
+    "vulnerability_type": "CWE-787",
+    "has_vulnerability": true
+  },
+  {
+    "file": "safe_array_01.c",
+    "function_name": "fill_array_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_cmd_01.c",
+    "function_name": "run_ping_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_copy_01.c",
+    "function_name": "copy_user_input_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_free_01.c",
+    "function_name": "cleanup_resources_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_input_01.c",
+    "function_name": "read_name_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_int_01.c",
+    "function_name": "allocate_buffer_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_mem_01.c",
+    "function_name": "create_buffer",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_memcpy_01.c",
+    "function_name": "process_data_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_null_01.c",
+    "function_name": "get_config_value_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_popen_01.c",
+    "function_name": "execute_backup_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_printf_01.c",
+    "function_name": "log_message_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_scanf_01.c",
+    "function_name": "parse_age_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_str_01.c",
+    "function_name": "copy_string_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_strcat_01.c",
+    "function_name": "build_path_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "safe_token_01.c",
+    "function_name": "extract_token_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_cwe22_01.py",
+    "function_name": "read_file",
+    "vulnerability_type": "CWE-22",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe78_01.py",
+    "function_name": "run_ping",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe78_02.py",
+    "function_name": "run_backup",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe89_01.py",
+    "function_name": "get_user",
+    "vulnerability_type": "CWE-89",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe94_01.py",
+    "function_name": "calculate",
+    "vulnerability_type": "CWE-94",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe95_01.py",
+    "function_name": "execute_code",
+    "vulnerability_type": "CWE-95",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe502_01.py",
+    "function_name": "load_data",
+    "vulnerability_type": "CWE-502",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_cwe798_01.py",
+    "function_name": "connect_db",
+    "vulnerability_type": "CWE-798",
+    "has_vulnerability": true
+  },
+  {
+    "file": "py_safe_cmd_01.py",
+    "function_name": "run_ping_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_cred_01.py",
+    "function_name": "connect_db_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_eval_01.py",
+    "function_name": "calculate_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_exec_01.py",
+    "function_name": "execute_sandboxed",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_file_01.py",
+    "function_name": "read_file_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_json_01.py",
+    "function_name": "load_data_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_sql_01.py",
+    "function_name": "get_user_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "py_safe_subprocess_01.py",
+    "function_name": "run_backup_safe",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "vuln_c_samples/buffer_overflow.c",
+    "function_name": "vulnerable_copy",
+    "vulnerability_type": "CWE-120",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_c_samples/buffer_overflow.c",
+    "function_name": "vulnerable_format",
+    "vulnerability_type": "CWE-134",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_c_samples/buffer_overflow.c",
+    "function_name": "vulnerable_system",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_c_samples/buffer_overflow.c",
+    "function_name": "safe_copy",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "vuln_python_samples/command_injection.py",
+    "function_name": "vulnerable_command",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_python_samples/command_injection.py",
+    "function_name": "vulnerable_eval",
+    "vulnerability_type": "CWE-94",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_python_samples/command_injection.py",
+    "function_name": "vulnerable_pickle",
+    "vulnerability_type": "CWE-502",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_python_samples/command_injection.py",
+    "function_name": "vulnerable_subprocess",
+    "vulnerability_type": "CWE-78",
+    "has_vulnerability": true
+  },
+  {
+    "file": "vuln_python_samples/command_injection.py",
+    "function_name": "safe_command",
+    "vulnerability_type": "NONE",
+    "has_vulnerability": false
+  },
+  {
+    "file": "app.py",
+    "function_name": "handle_pickle",
+    "has_vulnerability": true,
+    "vulnerability_type": "CWE-502"
+  },
+  {
+    "file": "app.py",
+    "function_name": "run_cmd",
+    "has_vulnerability": true,
+    "vulnerability_type": "CWE-78"
+  },
+  {
+    "file": "app.py",
+    "function_name": "safe_endpoint",
+    "has_vulnerability": false,
+    "vulnerability_type": "NONE"
+  },
+  {
+    "file": "command_injection.py",
+    "function_name": "safe_command",
+    "has_vulnerability": false,
+    "vulnerability_type": "NONE"
+  }
+]

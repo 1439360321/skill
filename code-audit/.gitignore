@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files (large)
+*.csv
+*.pkl
+*.model
+*.h5
+*.pb
+
+# ChromaDB / vector stores
+data/vector_db/
+vector_db/
+
+# Cache
+data/cache/
+*.cache
+
+# Reports (generated)
+reports/*.json
+reports/*.html
+
+# OS
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Environment
+.env
+.env.local
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Test artifacts
+.pytest_cache/
+
+# Claude AI traces
+.claude/
+CLAUDE.md
+**/CLAUDE.md
+
+# Temporary scripts
+scripts/_*.py
+*_temp.py
+test_glm_api.py
+
+# Reference data (large, read-only)
+bigvul_temp/
+reference-repo/
+
+# Downloaded papers / PDFs
+*.pdf
+
+# Reports (generated artifacts)
+code-audit/reports/
+api_security/reports/
+
+# Data cache (runtime artifacts)
+code-audit/data/cache/
+code-audit/data/vector_db/
+secodeplt_temp/

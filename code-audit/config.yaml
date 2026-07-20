@@ -1,0 +1,69 @@
+# ===========================================================================
+# LLM Provider — supports "ollama" (local) or "openai" (cloud API)
+# ===========================================================================
+llm:
+  provider: "openai"             # ollama | openai
+  host: "http://localhost:11434"
+  model: "glm-4.6v"
+  temperature: 0.1
+  max_tokens: 4096
+  timeout: 300
+  max_retries: 3
+
+  # OpenAI-compatible provider (GLM / DeepSeek / OpenAI)
+  api_key: "${GLM_API_KEY}"      # reads from env var, NEVER commit real key
+  base_url: "https://open.bigmodel.cn/api/paas/v4"
+
+deepseek:
+  api_key: "${DEEPSEEK_API_KEY}"
+  base_url: "https://api.deepseek.com"
+  model: "deepseek-chat"         # V4 Flash via official API
+
+ollama:
+  host: "http://localhost:11434"
+  model: "deepseek-r1:8b"
+  temperature: 0.1
+  max_tokens: 4096
+  timeout: 300
+  max_retries: 3
+  # 多阶段推理配置
+  stage1_temperature: 0.0      # 快速筛查用最低温度
+  stage2_temperature: 0.1      # 深度分析
+  stage3_temperature: 0.2      # 自检用稍高温度增加多样性
+
+rag:
+  embedding_model: "onnx-all-MiniLM-L6-v2"
+  vector_db_path: "./data/vector_db"
+  top_k: 5
+  similarity_threshold: 0.35   # low threshold — code→description matching is inherently lower than text→text
+  cwe_weight: 0.3
+  bigvul_weight: 0.7
+
+scanner:
+  supported_languages: ["c", "python", "java"]
+  max_slice_lines: 150         # 增加以覆盖更复杂函数
+  enable_dataflow: true
+  enable_sanitization: true
+
+evaluation:
+  confidence_threshold: 0.6
+  output_dir: "./reports"
+  datasets:
+    bigvul: "../bigvul_temp/all_c_cpp_release2.0.csv"
+    juliet: "./data/raw/juliet"
+
+cache:
+  enabled: true
+  cache_dir: "./data/cache"
+  ttl_hours: 24
+
+# 多阶段推理配置
+multistage:
+  enabled: true
+  skip_stage1_when:
+    - ast_confidence >= 0.8
+    - risk_level == "high"
+    - has_sanitization == false  # 无缓解措施的直接深度分析
+  stage1_max_tokens: 2048
+  stage2_max_tokens: 4096
+  stage3_max_tokens: 1024

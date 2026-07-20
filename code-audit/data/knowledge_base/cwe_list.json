@@ -1,0 +1,750 @@
+[
+  {
+    "id": "CWE-119",
+    "name": "Improper Restriction of Operations within the Bounds of a Memory Buffer",
+    "description": "The software performs operations on a memory buffer, but it can read from or write to a memory location that is outside of the intended boundary of the buffer.",
+    "code_examples": [
+      "buffer[index] = value; // index unchecked",
+      "memcpy(dst, src, len); // len > dst_size"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-120",
+    "name": "Buffer Copy without Checking Size of Input",
+    "description": "The program copies an input buffer to an output buffer without verifying that the size of the input buffer is less than the size of the output buffer.",
+    "code_examples": [
+      "strcpy(dst, src);",
+      "strcat(dst, src);",
+      "gets(buf);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-121",
+    "name": "Stack-based Buffer Overflow",
+    "description": "A stack-based buffer overflow condition exists when the software writes data beyond the boundaries of a stack-allocated buffer.",
+    "code_examples": [
+      "char buf[10]; strcpy(buf, user_input);",
+      "sprintf(buf, \"%s\", long_str);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-122",
+    "name": "Heap-based Buffer Overflow",
+    "description": "A heap-based buffer overflow condition exists when the software writes data beyond the boundaries of a heap-allocated buffer.",
+    "code_examples": [
+      "char *p = malloc(10); strcpy(p, long_input);",
+      "memcpy(p, src, len); // len > 10"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-123",
+    "name": "Write-what-where Condition",
+    "description": "Any condition where the attacker has the ability to write an arbitrary value to an arbitrary location, frequently as the result of a buffer overflow.",
+    "code_examples": [
+      "*((int*)user_controlled_ptr) = user_controlled_value;"
+    ],
+    "language": "c",
+    "severity": "Critical"
+  },
+  {
+    "id": "CWE-124",
+    "name": "Buffer Underwrite",
+    "description": "The software writes to a buffer using an index or pointer that references a memory location prior to the beginning of the buffer.",
+    "code_examples": [
+      "buf[-1] = 'A';",
+      "ptr = buf; *(ptr - 1) = 0;"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-125",
+    "name": "Out-of-bounds Read",
+    "description": "The software reads data past the end, or before the beginning, of the intended buffer.",
+    "code_examples": [
+      "char c = buf[strlen(buf)];",
+      "array[index] where index >= size"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-126",
+    "name": "Buffer Over-read",
+    "description": "The software reads from a buffer using an index or pointer that references a memory location after the end of the buffer.",
+    "code_examples": [
+      "memcpy(dst, src, 100); // src is only 10 bytes",
+      "strlen(unterminated_buf);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-127",
+    "name": "Buffer Under-read",
+    "description": "The software reads from a buffer using an index or pointer that references a memory location prior to the beginning of the buffer.",
+    "code_examples": [
+      "char c = buf[-1];",
+      "ptr = buf; char c = *(ptr - 5);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-129",
+    "name": "Improper Validation of Array Index",
+    "description": "The product uses untrusted input when calculating an array index, but the product does not validate or incorrectly validates the index.",
+    "code_examples": [
+      "int idx = atoi(user_input); arr[idx] = x;",
+      "buf[i] where i is unchecked"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-131",
+    "name": "Incorrect Calculation of Buffer Size",
+    "description": "The software does not correctly calculate the size to be used when allocating a buffer, which could lead to a buffer overflow.",
+    "code_examples": [
+      "malloc(strlen(src)); // forgot +1 for null",
+      "int buf[sizeof(src)]; // wrong size"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-134",
+    "name": "Use of Externally-Controlled Format String",
+    "description": "The software uses a function that accepts a format string as an argument, but the format string originates from an external source.",
+    "code_examples": [
+      "printf(user_input);",
+      "sprintf(buf, user_input, arg);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-170",
+    "name": "Improper Null Termination",
+    "description": "The software does not terminate a string with a null character, causing the string to be improperly terminated.",
+    "code_examples": [
+      "strncpy(dst, src, 10); // dst may not be null-terminated",
+      "memcpy(dst, src, 10);"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-190",
+    "name": "Integer Overflow or Wraparound",
+    "description": "The software performs a calculation that can produce an integer overflow or wraparound, which could cause unexpected behavior.",
+    "code_examples": [
+      "int total = a * b; // a*b exceeds INT_MAX",
+      "unsigned int x = -1; x++;"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-191",
+    "name": "Integer Underflow",
+    "description": "The software subtracts one value from another, resulting in an underflow where the result is less than expected.",
+    "code_examples": [
+      "unsigned int x = 0; x--;",
+      "size_t len = 0; len -= 1;"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-192",
+    "name": "Integer Coercion Error",
+    "description": "Integer coercion occurs when an integer is implicitly cast to a smaller type, causing data loss or unexpected behavior.",
+    "code_examples": [
+      "short s = large_int;",
+      "int x = (int)long_long_value;"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-193",
+    "name": "Off-by-one Error",
+    "description": "A product calculates or uses an incorrect maximum or minimum value that is 1 more, or 1 less, than the correct value.",
+    "code_examples": [
+      "for (i=0; i<=n; i++) buf[i]=0;",
+      "malloc(strlen(s)); // should be +1"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-194",
+    "name": "Unexpected Sign Extension",
+    "description": "The software performs an operation on a signed integer that causes it to be sign-extended when converted to a larger type.",
+    "code_examples": [
+      "char c = -1; int i = c; // i becomes -1, not 255",
+      "short s = -1; size_t z = s;"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-195",
+    "name": "Signed to Unsigned Conversion Error",
+    "description": "The software converts a signed integer to an unsigned integer, which can produce unexpected values if the original value is negative.",
+    "code_examples": [
+      "int len = -1; size_t s = len; // s becomes very large",
+      "strlen returns size_t but stored in int"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-196",
+    "name": "Unsigned to Signed Conversion Error",
+    "description": "The software converts an unsigned integer to a signed integer, which can produce unexpected negative values.",
+    "code_examples": [
+      "size_t s = 0xFFFFFFFF; int i = s; // i becomes -1"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-197",
+    "name": "Numeric Truncation Error",
+    "description": "Truncation errors occur when a larger type is cast to a smaller type and the value exceeds the range of the smaller type.",
+    "code_examples": [
+      "int x = 99999; short s = x;",
+      "long l = INT_MAX+1L; int i = l;"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-242",
+    "name": "Use of Inherently Dangerous Function",
+    "description": "The program uses a function that can lead to security vulnerabilities if not used carefully.",
+    "code_examples": [
+      "gets(buf);",
+      "strcpy(dst, src);",
+      "sprintf(buf, fmt);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-401",
+    "name": "Missing Release of Memory after Effective Lifetime",
+    "description": "The software does not sufficiently track and release allocated memory after it has been used, resulting in a memory leak.",
+    "code_examples": [
+      "void* p = malloc(100); return; // no free",
+      "loop { malloc(100); }"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-415",
+    "name": "Double Free",
+    "description": "The product calls free() twice on the same memory address, which could lead to memory corruption or arbitrary code execution.",
+    "code_examples": [
+      "free(p); ... free(p);",
+      "p = q; free(p); free(q);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-416",
+    "name": "Use After Free",
+    "description": "Referencing memory after it has been freed can cause a program to crash, use unexpected values, or execute code.",
+    "code_examples": [
+      "free(p); *p = 1;",
+      "free(p); func(p);"
+    ],
+    "language": "c",
+    "severity": "Critical"
+  },
+  {
+    "id": "CWE-457",
+    "name": "Use of Uninitialized Variable",
+    "description": "The code uses a variable that has not been initialized, leading to unpredictable behavior.",
+    "code_examples": [
+      "int x; printf(\"%d\", x);",
+      "char buf[10]; strcpy(buf, src); // buf uninitialized"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-476",
+    "name": "NULL Pointer Dereference",
+    "description": "A NULL pointer dereference occurs when the application dereferences a pointer that it expects to be valid, but is NULL.",
+    "code_examples": [
+      "int *p = NULL; *p = 1;",
+      "func(NULL)->field;"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-562",
+    "name": "Return of Stack Variable Address",
+    "description": "A function returns the address of a stack variable, which will become invalid once the function returns.",
+    "code_examples": [
+      "char* f() { char buf[10]; return buf; }",
+      "int* g() { int x; return &x; }"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-676",
+    "name": "Use of Potentially Dangerous Function",
+    "description": "The program invokes a potentially dangerous function that could introduce a vulnerability.",
+    "code_examples": [
+      "system(cmd);",
+      "popen(cmd, \"r\");",
+      "scanf(\"%s\", buf);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-681",
+    "name": "Incorrect Conversion between Numeric Types",
+    "description": "When converting from one data type to another, the conversion is performed incorrectly.",
+    "code_examples": [
+      "float f = 1.5; int i = f; // truncation",
+      "double d; float f = d;"
+    ],
+    "language": "c",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-787",
+    "name": "Out-of-bounds Write",
+    "description": "The software writes data past the end, or before the beginning, of the intended buffer.",
+    "code_examples": [
+      "buf[100] = 'A'; // buf size is 10",
+      "strcpy(dst, very_long_src);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-788",
+    "name": "Access of Memory Location After End of Buffer",
+    "description": "The software reads or writes to a buffer using an index or pointer that references a memory location after the end of the buffer.",
+    "code_examples": [
+      "for(i=0; i<=size; i++) arr[i]=0;",
+      "ptr = buf + size; *ptr = x;"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-805",
+    "name": "Buffer Access with Incorrect Length Value",
+    "description": "The software uses a length value to access a buffer, but the length is incorrect.",
+    "code_examples": [
+      "memcpy(dst, src, sizeof(src)); // should be sizeof(dst)",
+      "strncpy(dst, src, sizeof(src));"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-806",
+    "name": "Buffer Access Using Size of Source Buffer",
+    "description": "The software uses the size of a source buffer when accessing a destination buffer, which could cause a buffer overflow.",
+    "code_examples": [
+      "strncpy(dst, src, strlen(src));",
+      "memcpy(dst, src, strlen(src));"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-822",
+    "name": "Untrusted Pointer Dereference",
+    "description": "The program obtains a value from an untrusted source, converts it to a pointer, and dereferences it.",
+    "code_examples": [
+      "int *p = (int*)user_value; *p = x;",
+      "func((void*)user_ptr);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-823",
+    "name": "Use of Out-of-range Pointer Offset",
+    "description": "The product performs pointer arithmetic on a valid pointer, but it used an offset that is outside the bounds of the buffer.",
+    "code_examples": [
+      "ptr = buf + 100; // buf is size 10",
+      "ptr += very_large_offset;"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-824",
+    "name": "Access of Uninitialized Pointer",
+    "description": "The software accesses a pointer that has not been initialized.",
+    "code_examples": [
+      "int *p; *p = 1;",
+      "char *s; strcpy(s, \"hello\");"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-825",
+    "name": "Expired Pointer Dereference",
+    "description": "The software dereferences a pointer that was previously invalidated, such as after free or scope exit.",
+    "code_examples": [
+      "{ int x; p = &x; } *p = 1;",
+      "free(p); func(p);"
+    ],
+    "language": "c",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-20",
+    "name": "Improper Input Validation",
+    "description": "The product does not validate or incorrectly validates input that can affect the control flow or data flow of a program.",
+    "code_examples": [
+      "user_input = request.args.get('cmd')",
+      "data = request.json['field']"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-22",
+    "name": "Improper Limitation of a Pathname to a Restricted Directory",
+    "description": "The software uses external input to construct a pathname intended to identify a file or directory below a restricted parent directory.",
+    "code_examples": [
+      "open(base_dir + user_path)",
+      "pathlib.Path(base) / user_input"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-78",
+    "name": "OS Command Injection",
+    "description": "The software constructs all or part of an OS command using externally-influenced input, allowing command injection.",
+    "code_examples": [
+      "os.system(user_input)",
+      "subprocess.call(cmd, shell=True)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-79",
+    "name": "Cross-site Scripting (XSS)",
+    "description": "The software does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output.",
+    "code_examples": [
+      "html = '<div>' + user_input + '</div>'",
+      "return render_template('page.html', data=user_input)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-89",
+    "name": "SQL Injection",
+    "description": "The software constructs all or part of an SQL command using externally-influenced input, allowing SQL injection.",
+    "code_examples": [
+      "cursor.execute('SELECT * FROM users WHERE id = ' + user_id)",
+      "query = f'SELECT * FROM table WHERE name = {name}'"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-90",
+    "name": "LDAP Injection",
+    "description": "The software constructs all or part of an LDAP query using externally-influenced input, allowing LDAP injection.",
+    "code_examples": [
+      "ldap.search('(cn=' + user_input + ')')"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-91",
+    "name": "XML Injection",
+    "description": "The software does not properly neutralize special elements that are used in XML, allowing XML injection.",
+    "code_examples": [
+      "xml = '<user>' + name + '</user>'",
+      "etree.fromstring(user_xml)"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-94",
+    "name": "Improper Control of Generation of Code",
+    "description": "The software constructs all or part of a code segment using externally-influenced input.",
+    "code_examples": [
+      "eval(user_input)",
+      "exec(user_code)"
+    ],
+    "language": "python",
+    "severity": "Critical"
+  },
+  {
+    "id": "CWE-95",
+    "name": "Improper Neutralization of Directives in Dynamically Evaluated Code",
+    "description": "The software receives input from an upstream component, but it does not neutralize or incorrectly neutralizes special elements that could be interpreted as directives.",
+    "code_examples": [
+      "eval('__import__(\"os\").system(\"' + cmd + '\")')",
+      "exec(compile(user_code, '<string>', 'exec'))"
+    ],
+    "language": "python",
+    "severity": "Critical"
+  },
+  {
+    "id": "CWE-96",
+    "name": "Improper Neutralization of Directives in Statically Saved Code",
+    "description": "The software receives input but does not properly neutralize special elements that could modify the code.",
+    "code_examples": [
+      "pickle.loads(user_data)",
+      "yaml.load(stream)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-113",
+    "name": "Improper Neutralization of CRLF Sequences in HTTP Headers",
+    "description": "The software receives data from an upstream component, but does not neutralize or incorrectly neutralizes CR and LF characters.",
+    "code_examples": [
+      "response.headers['Location'] = user_url",
+      "redirect(user_input)"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-116",
+    "name": "Improper Encoding or Escaping of Output",
+    "description": "The software prepares a structured message for communication with another component, but does not properly encode or escape the data.",
+    "code_examples": [
+      "json.dumps(user_data)",
+      "xml.etree.ElementTree.tostring(elem)"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-200",
+    "name": "Exposure of Sensitive Information to an Unauthorized Actor",
+    "description": "The product exposes sensitive information to an actor that is not explicitly authorized to have access.",
+    "code_examples": [
+      "return {'error': str(e)}",
+      "print(password)"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-209",
+    "name": "Generation of Error Message Containing Sensitive Information",
+    "description": "The software generates an error message that includes sensitive information.",
+    "code_examples": [
+      "raise Exception(f'DB connection failed: {db_url}')",
+      "logger.error(traceback.format_exc())"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-259",
+    "name": "Use of Hard-coded Password",
+    "description": "The software contains a hard-coded password, which it uses for its own inbound authentication or outbound communication.",
+    "code_examples": [
+      "password = 'admin123'",
+      "if pwd == 'secret':"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-287",
+    "name": "Improper Authentication",
+    "description": "When an actor claims to have a given identity, the software does not prove or insufficiently proves that the claim is correct.",
+    "code_examples": [
+      "if request.headers.get('token'): return True",
+      "user = get_user_without_verification()"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-306",
+    "name": "Missing Authentication for Critical Function",
+    "description": "The product does not perform any authentication for functionality that requires a proven user identity.",
+    "code_examples": [
+      "@app.route('/admin')\ndef admin(): ...",
+      "def delete_user(id): # no auth check"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-311",
+    "name": "Missing Encryption of Sensitive Data",
+    "description": "The software does not encrypt sensitive or critical information before storage or transmission.",
+    "code_examples": [
+      "db.store(password_plain)",
+      "send_email(body=token)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-312",
+    "name": "Cleartext Storage of Sensitive Information",
+    "description": "The software stores sensitive information in cleartext.",
+    "code_examples": [
+      "with open('secrets.txt', 'w') as f: f.write(api_key)",
+      "redis.set('pwd', password)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-319",
+    "name": "Cleartext Transmission of Sensitive Information",
+    "description": "The software transmits sensitive or security-critical data in cleartext.",
+    "code_examples": [
+      "requests.post(url, data={'password': pwd})",
+      "smtp.send_message(msg)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-327",
+    "name": "Use of a Broken or Risky Cryptographic Algorithm",
+    "description": "The use of a broken or risky cryptographic algorithm is an unnecessary risk.",
+    "code_examples": [
+      "hashlib.md5(password)",
+      "DES.new(key, DES.MODE_ECB)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-328",
+    "name": "Use of Weak Hash",
+    "description": "The product uses an algorithm that produces a digest that does not meet the expected computational effort.",
+    "code_examples": [
+      "hashlib.sha1(data)",
+      "hash(password) % 1000"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-330",
+    "name": "Use of Insufficiently Random Values",
+    "description": "The software uses insufficiently random numbers or values in a security context.",
+    "code_examples": [
+      "random.randint(0, 100)",
+      "str(random.random())"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-502",
+    "name": "Deserialization of Untrusted Data",
+    "description": "The application deserializes untrusted data without sufficiently verifying the resulting data.",
+    "code_examples": [
+      "pickle.loads(user_data)",
+      "yaml.load(stream)"
+    ],
+    "language": "python",
+    "severity": "Critical"
+  },
+  {
+    "id": "CWE-521",
+    "name": "Weak Password Requirements",
+    "description": "The product does not require that users should have strong passwords, which makes it easier for attackers to compromise user accounts.",
+    "code_examples": [
+      "if len(password) >= 4: return True",
+      "no password complexity check"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-611",
+    "name": "Improper Restriction of XML External Entity Reference",
+    "description": "The software processes an XML document that can contain XML entities with URIs that resolve to documents outside of the intended sphere of control.",
+    "code_examples": [
+      "etree.parse(user_xml)",
+      "xml.dom.minidom.parseString(data)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-776",
+    "name": "Improper Restriction of Recursive Entity References in DTDs",
+    "description": "The software uses XML documents and allows their use of DTDs, but it does not properly control the number of recursive definitions of entities.",
+    "code_examples": [
+      "etree.fromstring(xml_data)",
+      "xml.sax.parseString(data, handler)"
+    ],
+    "language": "python",
+    "severity": "Medium"
+  },
+  {
+    "id": "CWE-798",
+    "name": "Use of Hard-coded Credentials",
+    "description": "The software contains hard-coded credentials, such as a password or cryptographic key.",
+    "code_examples": [
+      "API_KEY = 'sk-1234567890abcdef'",
+      "if token == 'secret_token':"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-918",
+    "name": "Server-Side Request Forgery (SSRF)",
+    "description": "The web server receives a URL or similar request from an upstream component and retrieves the contents of this URL, but it does not sufficiently ensure that the request is being sent to the expected destination.",
+    "code_examples": [
+      "requests.get(user_url)",
+      "urllib.request.urlopen(target)"
+    ],
+    "language": "python",
+    "severity": "High"
+  },
+  {
+    "id": "CWE-943",
+    "name": "Improper Neutralization of Special Elements in Data Query Logic",
+    "description": "The software generates a query intended to access or manipulate data in a data store, but it does not neutralize special elements.",
+    "code_examples": [
+      "db.find({'$where': user_input})",
+      "collection.find({field: user_value})"
+    ],
+    "language": "python",
+    "severity": "High"
+  }
+]
