@@ -395,7 +395,8 @@ def parse_json(text: str, mode: str = "robust") -> dict | None:
     cleaned = re.sub(r"\s*```\s*$", "", cleaned)
     # Fix DeepSeek V4 Flash quirk: stray quote after numeric values
     # {"confidence":1.0","reasoning":"..."} → {"confidence":1.0,"reasoning":"..."}
-    cleaned = re.sub(r'(\d+\.?\d*)(",)', r'\1,', cleaned)
+    # Must require decimal point to avoid matching digits in string values like "CWE-122"
+    cleaned = re.sub(r'(\d+\.\d+)(",)', r'\1,', cleaned)
     cleaned = cleaned.strip()
 
     try:
@@ -414,7 +415,7 @@ def parse_json(text: str, mode: str = "robust") -> dict | None:
                     pass
         return None
 
-    # Robust mode: key-value recovery
+    # Robust mode: scan char by char to find last complete KV pair
     m = re.search(r"\{[\s\S]*", cleaned)
     if not m:
         logger.warning(f"JSON parse failed (no braces): {text[:100]}")
@@ -426,34 +427,44 @@ def parse_json(text: str, mode: str = "robust") -> dict | None:
     except json.JSONDecodeError:
         pass
 
-    complete_pairs = list(re.finditer(
-        r'"(\w+)"\s*:\s*((?:"[^"]*")|(?:true|false|null)|(?:\d+\.?\d*))',
-        json_str
-    ))
+    # Walk through JSON tracking string boundaries and nesting depth.
+    # Record the position after each complete top-level value (i.e. after each ',').
+    depth = 0
+    in_string = False
+    last_complete = 1  # position right after '{'
 
-    if complete_pairs:
-        last = complete_pairs[-1]
-        cutoff = last.end()
-        truncated = json_str[:cutoff]
-        open_b = truncated.count("{") - truncated.count("}")
-        if open_b > 0:
-            try:
-                return json.loads(truncated + "\n}" * open_b)
-            except json.JSONDecodeError:
-                pass
+    i = 1  # skip opening '{'
+    while i < len(json_str):
+        ch = json_str[i]
+        if in_string:
+            if ch == '\\':
+                i += 2
+                continue
+            elif ch == '"':
+                in_string = False
+        else:
+            if ch == '"':
+                in_string = True
+            elif ch in '{[':
+                depth += 1
+            elif ch in '}]':
+                depth -= 1
+            elif ch == ',' and depth == 0:
+                last_complete = i
+        i += 1
 
-    open_braces = json_str.count("{") - json_str.count("}")
-    if open_braces > 0:
-        fixed = json_str.rstrip()
-        last_line = fixed.split("\n")[-1]
-        if last_line.count('"') % 2 == 1:
-            lines = fixed.split("\n")
-            fixed = "\n".join(lines[:-1]).rstrip().rstrip(",")
-        fixed += "\n}" * open_braces
-        try:
-            return json.loads(fixed)
-        except json.JSONDecodeError:
-            pass
+    truncated = json_str[:last_complete].rstrip(",").rstrip()
+    if truncated.count('"') % 2 != 0:
+        truncated += '"'
+
+    missing = truncated.count("{") - truncated.count("}")
+    if missing > 0:
+        truncated += "}" * missing
+
+    try:
+        return json.loads(truncated)
+    except json.JSONDecodeError:
+        pass
 
     logger.warning(f"JSON parse failed: {text[:120]}")
     return None
@@ -1045,8 +1056,13 @@ class ToolAwareChainStrategy:
         context["code_keyline"] = dynamic_window
         context["code"] = slice_data.get("code", "")
 
-        a2 = agent2_verify(self.client, context, a1, self.params)
-        self.llm_calls += 1
+        # Agent2: single call or multi-temp weighted voting
+        agent2_temps = self.params.get("agent2_temperatures", None)
+        if agent2_temps and isinstance(agent2_temps, list) and len(agent2_temps) >= 2:
+            a2 = self._run_a2_multi_temp(context, a1, agent2_temps)
+        else:
+            a2 = agent2_verify(self.client, context, a1, self.params)
+            self.llm_calls += 1
         result["_agent2_raw"] = a2
 
         if a2["verdict"] == "false_positive":
@@ -1159,6 +1175,50 @@ class ToolAwareChainStrategy:
 
         # medium / full: give A2 everything, let it decide what matters
         return code
+
+    def _run_a2_multi_temp(self, context: dict, a1: dict,
+                           temperatures: list) -> dict:
+        """Agent2 multi-temperature weighted vote.
+
+        Uses flag_it bias (conservative base) so temperature changes
+        produce real divergence. Each verdict weighted by confidence.
+        vuln_weight / total_weight >= threshold → confirmed_vuln.
+        """
+        import copy
+        vuln_weight = 0.0
+        total_weight = 0.0
+        results = []
+        threshold = self.params.get("voting_threshold", 0.5)
+
+        for temp in temperatures:
+            p = copy.deepcopy(self.params)
+            p["agent2_temperature"] = temp
+            p["agent2_bias"] = "flag_it"  # conservative base → temperature matters
+            a2 = agent2_verify(self.client, context, a1, p)
+            self.llm_calls += 1
+            results.append(a2)
+
+            conf = a2.get("confidence", 0.5)
+            total_weight += conf
+            if a2["verdict"] == "confirmed_vuln":
+                vuln_weight += conf
+
+        best = max(results, key=lambda r: r.get("confidence", 0))
+        temps_str = ','.join(str(t) for t in temperatures)
+
+        if total_weight > 0 and (vuln_weight / total_weight) >= threshold:
+            return {
+                "verdict": "confirmed_vuln",
+                "confidence": best.get("confidence", 0.7),
+                "reasoning": f"multi-temp({temps_str}): "
+                             f"{vuln_weight:.2f}/{total_weight:.2f}≥{threshold}"
+            }
+        return {
+            "verdict": "false_positive",
+            "confidence": best.get("confidence", 0.5),
+            "reasoning": f"multi-temp({temps_str}): "
+                         f"{vuln_weight:.2f}/{total_weight:.2f}<{threshold}"
+        }
 
     def _run_a3_with_rag(self, slice_data: dict, result: dict,
                           a1: dict, code_window: str) -> None:

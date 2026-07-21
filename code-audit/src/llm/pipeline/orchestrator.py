@@ -56,22 +56,24 @@ def run_pipeline(slice_data: dict, client, params: dict) -> dict:
 
     result = dict(slice_data)
 
-    # --- Layer 0: Static decision ---
-    static_params = params.get("static_decision", {})
-    static_strategy = create_static_decision(static_params)
-    decision = static_strategy.decide(slice_data)
-    result["_static_decision"] = decision
+    # --- Layer 0: Static decision (bypassed in tool_aware_chain — Agent1 handles it) ---
+    llm_mode = params.get("llm", {}).get("mode", "")
+    if llm_mode != "tool_aware_chain":
+        static_params = params.get("static_decision", {})
+        static_strategy = create_static_decision(static_params)
+        decision = static_strategy.decide(slice_data)
+        result["_static_decision"] = decision
 
-    if decision == "vuln":
-        result["final_verdict"] = "vuln"
-        result["final_method"] = "static_deterministic"
-        result["final_confidence"] = 0.9
-        return result
-    elif decision == "safe":
-        result["final_verdict"] = "safe"
-        result["final_method"] = "static_deterministic"
-        result["final_confidence"] = 0.9
-        return result
+        if decision == "vuln":
+            result["final_verdict"] = "vuln"
+            result["final_method"] = "static_deterministic"
+            result["final_confidence"] = 0.9
+            return result
+        elif decision == "safe":
+            result["final_verdict"] = "safe"
+            result["final_method"] = "static_deterministic"
+            result["final_confidence"] = 0.9
+            return result
 
     # --- Layer 1: Code window ---
     window_params = params.get("code_window", {})
@@ -274,10 +276,11 @@ def get_params(preset: str = "v1", overrides: dict | None = None) -> dict:
         overrides: dict of param overrides merged on top
 
     Returns:
-        full params dict
+        full params dict (deep-copied — safe to mutate)
     """
+    import copy
     presets = {"v1": PRESET_V1, "v2": PRESET_V2, "v3": PRESET_V3, "v4": PRESET_V4}
-    params = dict(presets.get(preset, PRESET_V1))
+    params = copy.deepcopy(presets.get(preset, PRESET_V1))
 
     if overrides:
         for section in overrides:
