@@ -95,3 +95,4 @@ code-audit/reports/
 
 # Deprecated code cache
 deprecated/__pycache__/
+output/node_modules/
